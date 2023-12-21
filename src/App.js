@@ -2,47 +2,48 @@ import React, { useState } from 'react';
 import uuid from 'react-uuid';
 
 function App() {
-  function id() {
-    return uuid();
+  const[notes, setNotes] = useState([1, 2, 3, 4, 5]);
+  const[value, setValue] = useState();
+  const[index, setIndex] = useState(null);
+  
+
+  const result = notes.map((elem, index) => {
+    return <>
+      <li key={index} onClick={() => doSmth(index)}>{elem}</li>
+    </>
+  })
+
+  function doSmth(index) {
+    setIndex(index);
+    setValue(notes[index]);
   }
 
-
-
-  const initObj = {
-    prop1: 'value1',
-    prop2: 'value2',
-    prop3: 'value3',
+  function changeInput(event) {
+    // let copy = [...notes.slice(0, index), event.target.value, ...notes.slice(index + 1)];
+    let copy = Object.assign([], notes);
+    copy[index] = event.target.value;
+    setNotes(copy);
   }
-  const [obj, setObj] = useState(initObj);
-
-  function changeHandler(key, event) {
-    let copy = Object.assign({}, obj);
-    copy[key] = event.target.value;
-    setObj(copy);
+  function reverse() {
+    let copy = Object.assign([], notes);
+    setNotes(copy.reverse());
   }
 
-  let inputs = [];
-  for(let key in obj) {
-    inputs.push(
-        <input key={key} value={obj[key]} onChange={(event) => changeHandler(key, event)}/>
-    )
-  }
   return <div>
-    {inputs}
-    <p>
-      {obj.prop1}
-    </p>
-    <p>
-      {obj.prop2}
-    </p>
-    <p>
-      {obj.prop3}
-    </p>
+    <button onClick={() => reverse() }>reverse</button>
+    <input value={value} onBlur={(event) => changeInput(event)} onChange={(event) => setValue(event.target.value)}/>
+    <ul>
+    {result}
+    </ul>
   </div>
 }
 
 function plus(number1, number2) {
   return Number(number1) + Number(number2);
+}
+
+function id() {
+  return uuid();
 }
 
 export default App;
