@@ -1,59 +1,21 @@
 import React, { useState } from 'react';
 import uuid from 'react-uuid';
+import Product from './Product';
 
 function App() {
-
-  const initNotes = [
-    {
-      id: id(),
-      name: 'name1',
-      desc: 'long description 1',
-      show: false,
-    },
-    {
-      id: id(),
-      name: 'name2',
-      desc: 'long description 2',
-      show: false,
-    },
-    {
-      id: id(),
-      name: 'name3',
-      desc: 'long description 3',
-      show: false,
-    },
+  const prods = [
+    {id: id(), name: 'product1', cost: 100},
+    {id: id(), name: 'product2', cost: 200},
+    {id: id(), name: 'product3', cost: 300},
   ];
 
-  const [notes, setNotes] = useState(initNotes);
-
-  const result = notes.map(note => {
-		return <>
-    <p key={note.id}>
-			{note.name}, 
-			{note.show && <i>{note.desc}</i>}
-		</p>
-    <button key={note.id} onClick={() => showElement(note.id)}>{note.show ? "hide" : "show"}</button>
-    </>
-	});
-
-  function showElement(id) {
-    let copy = Object.assign([], notes);
-    copy = copy.map(elem => {
-      if(elem.id === id) {
-        elem.show = !elem.show;
-      }
-      return elem;
-    });
-    setNotes(copy);
-  }
+  const result = prods.map(obj => {
+    return <Product key={obj.id} name={obj.name} cost={obj.cost}/>
+  })
 
   return <div>
     {result}
   </div>
-}
-
-function plus(number1, number2) {
-  return Number(number1) + Number(number2);
 }
 
 function id() {
